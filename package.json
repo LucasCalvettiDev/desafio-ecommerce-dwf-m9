@@ -1,0 +1,49 @@
+{
+    "name": "passwordless",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:LucasCalvetti/passwordless.git",
+    "author": "Lucas Calvetti <lic.calvo099@gmail.com>",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next",
+        "test": "ava"
+    },
+    "type": "module",
+    "ava": {
+        "nodeArguments": [
+            "--loader=@esbuild-kit/esm-loader",
+            "--experimental-specifier-resolution=node"
+        ],
+        "environmentVariables": {
+            "TESTING": "true",
+            "JWT_SECRET": "testingEnvJwtSecret123456789"
+        },
+        "extensions": {
+            "ts": "module"
+        }
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@esbuild-kit/esm-loader": "^2.5.4",
+        "@sendgrid/mail": "^7.7.0",
+        "ava": "^5.1.0",
+        "date-fns": "^2.29.3",
+        "firebase-admin": "^11.4.1",
+        "jsonwebtoken": "^9.0.0",
+        "mercadopago": "^1.5.14",
+        "micro-method-router": "^0.1.0",
+        "next": "^13.0.5",
+        "parse-bearer-token": "^1.0.1",
+        "random-seed": "^0.3.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "yup": "^0.32.11"
+    },
+    "devDependencies": {
+        "@types/node": "18.11.9",
+        "@types/react": "18.0.25",
+        "typescript": "4.9.3"
+    }
+}
