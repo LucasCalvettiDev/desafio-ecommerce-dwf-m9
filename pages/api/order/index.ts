@@ -37,10 +37,11 @@ export async function postHandler(req: NextApiRequest, res: NextApiResponse, dec
     }
 }
 
-const postHandlerWithValidation = schemaMiddleware(bodySchema, postHandler); //tengo que crear la funcion schemaMiddleware para validar si tira error el body y la query, antes de que llegue al endpoint en cuestion
+//const postHandlerWithValidation = schemaMiddleware(bodySchema, postHandler); //tengo que crear la funcion schemaMiddleware para validar si tira error el body y la query, antes de que llegue al endpoint en cuestion
 
 const handler = method({
-    post: postHandlerWithValidation,
+    // post: postHandlerWithValidation,
+    post: postHandler,
 });
 
 export default authMiddleware(handler);
