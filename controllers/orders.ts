@@ -82,6 +82,7 @@ export async function updateOrderStatus(mercadolibreOrderId: string) {
         await order.push();
         const product = await getProductById(order.data.productId);
         if (product instanceof Product) {
+            console.log({ vendorID: product.productData.vendorId }, { buyerID: order.data.buyerId });
             const vendor = await getUserById(product.productData.vendorId);
             const buyer = await getUserById(order.data.buyerId);
             await sendEmailBuyConfirmationToBuyer(buyer.email, product.productData.title, product.productData.price.toString());
@@ -106,7 +107,7 @@ export async function getUserOrdersByUserId(userId: string) {
 
 // PD ayudita: https://github.com/dylanpilsner/ecommerce-backend/blob/main/controllers/order.ts
 
-// te queda ver si el webhook funciona bien y le manda el mail al vendedor y al comprador cuando creas una orden, para esto vas a tener que primero comitear todo a github y updatear el servidor con vercel (tambien las variables de entorno y demases)
+// te queda ver si el webhook funciona bien y le manda el mail al vendedor y al comprador cuando creas una orden, para esto ya subiste todo a github y abriste el sv con vercel y actualizaste las variables de entonrno, tenes que hacer una compra trucha en produccion y ver si mando los mails o en su defecto ver si creo la orden de compra y la actualizo con la orden de mercadopago.
 
 //podes seguir por aca tmb:
 // GET /me/orders     Devuelve todas mis ordenes con sus status.
