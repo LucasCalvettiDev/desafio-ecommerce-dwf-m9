@@ -29,7 +29,7 @@ export async function createOrder(userId: string, productId: string, additionalI
     //cambiar la notification_url por el link de produccion (creo que es "https://desafio-ecommerce-dwf-m9.vercel.app/api/webhooks/mercadopago") y usa la de AMERICAN EXPRESS de prueba
     const pref = await createPreference({
         external_reference: order.id,
-        notification_url: "https://webhook.site/82e09a84-1d8a-4675-aad1-3df6cd17ff69",
+        notification_url: "https://desafio-ecommerce-dwf-m9-gyrk.vercel.app/api/webhooks/mercadopago",
         items: [
             {
                 title: productData.title,
