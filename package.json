@@ -1,8 +1,8 @@
 {
-    "name": "passwordless",
+    "name": "desafio-ecommerce-backend",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "git@github.com:LucasCalvetti/passwordless.git",
+    "repository": "git@github.com:LucasCalvetti/desafio-ecommerce-backend.git",
     "author": "Lucas Calvetti <lic.calvo099@gmail.com>",
     "scripts": {
         "dev": "next dev",
@@ -27,7 +27,9 @@
     "license": "MIT",
     "dependencies": {
         "@esbuild-kit/esm-loader": "^2.5.4",
-        "@sendgrid/mail": "^7.7.0",
+        "@sendinblue/client": "^3.2.2",
+        "airtable": "^0.11.6",
+        "algoliasearch": "^4.16.0",
         "ava": "^5.1.0",
         "date-fns": "^2.29.3",
         "firebase-admin": "^11.4.1",
@@ -39,6 +41,7 @@
         "random-seed": "^0.3.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "sib-api-v3-sdk": "^8.5.0",
         "yup": "^0.32.11"
     },
     "devDependencies": {

@@ -2,16 +2,15 @@ import { User } from "models/user";
 import { Auth } from "models/auth";
 import gen from "random-seed";
 import addMinutes from "date-fns/addMinutes";
-import { sendVerificationEmail } from "lib/sendgrid";
+import { sendEmail } from "lib/sendInBlue";
 
-var seed = "asdasdasdasd";
-var random = gen.create(seed);
+var random = gen.create();
 
+//Encuetra o crea un Auth, recibiendo un email de parametro
 export async function findOrCreateAuth(email: string): Promise<Auth> {
     const cleanEmail = email.trim().toLowerCase();
     const auth = await Auth.findByEmail(cleanEmail);
     if (auth) {
-        console.log("auth encontrado");
         return auth;
     } else {
         //si no hay auth, significa que no hay usuario con ese mail y lo crea primero
@@ -28,6 +27,19 @@ export async function findOrCreateAuth(email: string): Promise<Auth> {
     }
 }
 
+function sendValidationEmail(email: string, code: number) {
+    const emailData = {
+        subject: "Your activation code from Ecommerce",
+        sender: { email: "l.calvetti.dev@gmail.com", name: "Ecommerce" },
+        to: [{ email }],
+        htmlContent: "<html><body><h1>Your activation code is: {{params.code}}</h1></body></html>",
+        params: { code },
+    };
+
+    return sendEmail.sendTransacEmail(emailData);
+}
+
+//Envia Email con el Código de acceso y le agrega 20 minutos de expiración
 export async function sendCode(email: string) {
     const auth = await findOrCreateAuth(email);
     const code = random.intBetween(10000, 99999);
@@ -36,7 +48,6 @@ export async function sendCode(email: string) {
     auth.data.code = code;
     auth.data.expires = twentyMinutesFromNow;
     await auth.push();
-    sendVerificationEmail(email, auth.data.code);
-    console.log(auth.data.code);
+    await sendValidationEmail(email, code);
     return true;
 }

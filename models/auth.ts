@@ -18,9 +18,17 @@ export class Auth {
     async push() {
         this.ref.update(this.data);
     }
-    isCodeExpired() {
+    async isCodeExpired() {
         const now = new Date();
         const expires = this.data.expires.toDate();
+
+        const isExpired = isAfter(now, expires);
+
+        //Borramos el código de activación, para que solo pueda ser usado una vez.
+        if (!isExpired) {
+            this.data.code = "";
+            await this.push();
+        }
         return isAfter(now, expires);
     }
     static async findByEmail(email: string) {

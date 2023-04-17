@@ -3,6 +3,7 @@ import { authMiddleware } from "lib/middlewares";
 import method from "micro-method-router";
 import { createOrder } from "controllers/orders";
 import * as yup from "yup";
+import type { productData } from "lib/customTypes";
 
 let querySchema = yup.object().shape({
     productId: yup.string().required(),
@@ -11,8 +12,8 @@ let querySchema = yup.object().shape({
 let bodySchema = yup
     .object()
     .shape({
-        color: yup.string(),
-        address: yup.string(),
+        quantity: yup.number(),
+        additionalInfo: yup.object(),
     })
     .noUnknown(true);
 
@@ -30,17 +31,15 @@ export async function postHandler(req: NextApiRequest, res: NextApiResponse, dec
     }
     const { productId } = req.query as any;
     try {
-        const { url } = await createOrder(decodedToken.userId, productId, req.body);
+        const { additionalInfo, quantity } = req.body;
+        const { url } = await createOrder(decodedToken.userId, productId, additionalInfo, quantity);
         res.send({ url });
     } catch (e) {
         res.status(400).send({ message: e });
     }
 }
 
-//const postHandlerWithValidation = schemaMiddleware(bodySchema, postHandler); //tengo que crear la funcion schemaMiddleware para validar si tira error el body y la query, antes de que llegue al endpoint en cuestion
-
 const handler = method({
-    // post: postHandlerWithValidation,
     post: postHandler,
 });
 

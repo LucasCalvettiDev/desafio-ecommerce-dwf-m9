@@ -6,11 +6,14 @@ mercadopago.configure({
 
 export async function getMerchantOrder(id) {
     const res = await mercadopago.merchant_orders.get(id);
-    console.log(res.body);
     return res.body;
 }
 
 export async function createPreference(data) {
-    const res = await mercadopago.preferences.create(data);
-    return res.body;
+    try {
+        const res = await mercadopago.preferences.create(data);
+        return res.body;
+    } catch (e) {
+        console.error(e);
+    }
 }

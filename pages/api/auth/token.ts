@@ -9,7 +9,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             message: "email or code incorrect",
         });
     }
-    const expires = auth.isCodeExpired();
+    const expires = await auth.isCodeExpired();
     if (expires) {
         res.status(401).send({
             message: "code expirado",
@@ -19,4 +19,3 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = generate({ userId: auth.data.userId });
     res.send({ token });
 }
-//sendgrid no manda el mail porque es una poronga, fijate de cambiar la logica a otro sistema de mails, si no se resuelve proba https://www.sendinblue.com/
