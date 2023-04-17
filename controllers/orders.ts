@@ -49,11 +49,18 @@ export async function createOrder(userId: string, productId: string, additionalI
     return { url: pref.init_point };
 }
 
+// const emailData = {
+//     subject: "Your activation code from Ecommerce",
+//     sender: { email: "l.calvetti.dev@gmail.com", name: "Ecommerce" },
+//     to: [{ email }],
+//     htmlContent: "<html><body><h1>Your activation code is: {{params.code}}</h1></body></html>",
+//     params: { code },
+// };
 async function sendEmailBuyConfirmationToBuyer(buyerEmail: string, title: string, price: string) {
     const emailData = {
-        subject: "Your activation code from Ecommerce",
+        subject: "You have one new purchase at Ecommerce",
         sender: { email: "l.calvetti.dev@gmail.com", name: "Ecommerce" },
-        to: [{ buyerEmail }],
+        to: [{ email: buyerEmail }],
         htmlContent: "<html><body><h1>¡Felicidades! has comprado el siguiente producto: {{params.title}} al siguiente precio: ${{params.price}}</h1></body></html>",
         params: { title, price },
     };
@@ -61,9 +68,9 @@ async function sendEmailBuyConfirmationToBuyer(buyerEmail: string, title: string
 }
 async function sendEmailSaleConfirmationToVendor(vendorEmail: string, title: string, price: string) {
     const emailData = {
-        subject: "Your activation code from Ecommerce",
+        subject: "You have one new sale at Ecommerce",
         sender: { email: "l.calvetti.dev@gmail.com", name: "Ecommerce" },
-        to: [{ vendorEmail }],
+        to: [{ email: vendorEmail }],
         htmlContent: "<html><body><h1>¡Felicidades! has vendido el siguiente producto: {{params.title}} y se te han acreditado a tu cuenta: ${{params.price}}</h1></body></html>",
         params: { title, price },
     };
@@ -82,7 +89,6 @@ export async function updateOrderStatus(mercadolibreOrderId: string) {
         await order.push();
         const product = await getProductById(order.data.productId);
         if (product instanceof Product) {
-            console.log({ vendorID: product.productData.vendorId }, { buyerID: order.data.buyerId });
             const vendor = await getUserById(product.productData.vendorId);
             const buyer = await getUserById(order.data.buyerId);
             await sendEmailBuyConfirmationToBuyer(buyer.email, product.productData.title, product.productData.price.toString());
