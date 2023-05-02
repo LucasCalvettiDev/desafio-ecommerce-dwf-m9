@@ -3,7 +3,6 @@ import { authMiddleware } from "lib/middlewares";
 import method from "micro-method-router";
 import { createOrder } from "controllers/orders";
 import * as yup from "yup";
-import type { productData } from "lib/customTypes";
 
 let querySchema = yup.object().shape({
     productId: yup.string().required(),

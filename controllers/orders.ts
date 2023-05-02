@@ -5,6 +5,7 @@ import { Product } from "models/product";
 import type { productData, createOrderRes } from "lib/customTypes";
 import { getUserById } from "./users";
 import { sendEmail } from "lib/sendInBlue";
+import OrderId from "pages/api/order/[orderId]";
 
 export async function createOrder(userId: string, productId: string, additionalInfo, quantity: number): Promise<createOrderRes> {
     const product: any = await getProductById(productId);
@@ -110,13 +111,15 @@ export async function getUserOrdersByUserId(userId: string) {
     const orders = await Order.searchForUserOrders(userId);
     return orders;
 }
+export async function getOrderByOrderId(orderId: string) {
+    const order = new Order(orderId);
+    await order.push();
+    return order.data;
+}
 
 // PD ayudita: https://github.com/dylanpilsner/ecommerce-backend/blob/main/controllers/order.ts
 
-// te queda ver si el webhook funciona bien y le manda el mail al vendedor y al comprador cuando creas una orden, para esto ya subiste todo a github y abriste el sv con vercel y actualizaste las variables de entonrno, tenes que hacer una compra trucha en produccion y ver si mando los mails o en su defecto ver si creo la orden de compra y la actualizo con la orden de mercadopago.
+//podes seguir por aca:
+// GET /order/{orderId} , Devuelve una orden con toda la data incluyendo el estado de la orden.
 
-//podes seguir por aca tmb:
-// GET /me/orders     Devuelve todas mis ordenes con sus status.
-
-//ya lo hice lo de GET /me/orders arriba pero para testearlo tengo que hacer lo de github y vercel que dije mas arriba,
-//tambien tendria que dejar mejor el "me/orders" y el model orders en la parte de buscar mis ordenes y el controller porque como no lo pudiste testear te cuesta saber qué le falta que devuelve etc, deberias crear unas cuantas compras para saber que onda si las devuelve o no.
+//GET /me/orders hay que testearlo desde produccion, ya esta todo preparado para eso, en postman ponelo como produccion y probalo

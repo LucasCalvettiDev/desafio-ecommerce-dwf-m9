@@ -31,7 +31,7 @@ export class Order {
     }
     static async searchForUserOrders(userId: string) {
         try {
-            const myOrdersSnap = await collection.where("buyerId", "==", "userId").get();
+            const myOrdersSnap = await collection.where("buyerId", "==", userId).get();
             if (myOrdersSnap.docs) {
                 return myOrdersSnap.docs;
             }
