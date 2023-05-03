@@ -104,6 +104,6 @@ export async function getUserOrdersByUserId(userId: string) {
 }
 export async function getOrderByOrderId(orderId: string) {
     const order = new Order(orderId);
-    await order.push();
+    await order.pull();
     return order.data;
 }
