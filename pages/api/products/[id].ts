@@ -2,10 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getProductById } from "controllers/products";
 import method from "micro-method-router";
 import { ProductResponse } from "lib/customTypes";
-import * as yup from "yup";
 import { Product } from "models/product";
-
-// ya typié la userData en /me/index.ts, deberia crear una carpeta de custom types para importarla alla y aca y decirle que reciba solo uno de esos datos en el body, y que no le puedas mandar cualquier cosa
 
 async function findProductById(req: NextApiRequest, res: NextApiResponse) {
     const productId: any = req.query.id;

@@ -5,7 +5,6 @@ import { Product } from "models/product";
 import type { productData, createOrderRes } from "lib/customTypes";
 import { getUserById } from "./users";
 import { sendEmail } from "lib/sendInBlue";
-import OrderId from "pages/api/order/[orderId]";
 
 export async function createOrder(userId: string, productId: string, additionalInfo, quantity: number): Promise<createOrderRes> {
     const product: any = await getProductById(productId);
@@ -27,7 +26,6 @@ export async function createOrder(userId: string, productId: string, additionalI
         status: "pending",
     });
 
-    //cambiar la notification_url por el link de produccion (creo que es "https://desafio-ecommerce-dwf-m9.vercel.app/api/webhooks/mercadopago") y usa la de AMERICAN EXPRESS de prueba
     const pref = await createPreference({
         external_reference: order.id,
         notification_url: "https://desafio-ecommerce-dwf-m9-gyrk.vercel.app/api/webhooks/mercadopago",
@@ -50,13 +48,6 @@ export async function createOrder(userId: string, productId: string, additionalI
     return { url: pref.init_point };
 }
 
-// const emailData = {
-//     subject: "Your activation code from Ecommerce",
-//     sender: { email: "l.calvetti.dev@gmail.com", name: "Ecommerce" },
-//     to: [{ email }],
-//     htmlContent: "<html><body><h1>Your activation code is: {{params.code}}</h1></body></html>",
-//     params: { code },
-// };
 async function sendEmailBuyConfirmationToBuyer(buyerEmail: string, title: string, price: string) {
     const emailData = {
         subject: "You have one new purchase at Ecommerce",
@@ -116,10 +107,3 @@ export async function getOrderByOrderId(orderId: string) {
     await order.push();
     return order.data;
 }
-
-// PD ayudita: https://github.com/dylanpilsner/ecommerce-backend/blob/main/controllers/order.ts
-
-//podes seguir por aca:
-// GET /order/{orderId} , Devuelve una orden con toda la data incluyendo el estado de la orden.
-
-//GET /me/orders hay que testearlo desde produccion, ya esta todo preparado para eso, en postman ponelo como produccion y probalo
