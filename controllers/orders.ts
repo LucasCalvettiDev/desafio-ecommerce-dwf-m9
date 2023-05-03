@@ -28,7 +28,7 @@ export async function createOrder(userId: string, productId: string, additionalI
 
     const pref = await createPreference({
         external_reference: order.id,
-        notification_url: "https://desafio-ecommerce-dwf-m9-gyrk.vercel.app/api/webhooks/mercadopago",
+        notification_url: "https://desafio-ecommerce-dwf-m9-gyrk.vercel.app/api/ipn/mercadopago",
         items: [
             {
                 title: productData.title,
