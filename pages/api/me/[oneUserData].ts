@@ -3,8 +3,6 @@ import { authMiddleware } from "lib/middlewares";
 import { patchOneUserData } from "controllers/users";
 import method from "micro-method-router";
 
-// ya typié la userData en /me/index.ts, deberia crear una carpeta de custom types para importarla alla y aca y decirle que reciba solo uno de esos datos en el body, y que no le puedas mandar cualquier cosa
-
 async function updateOneUserData(req: NextApiRequest, res: NextApiResponse, decodedToken) {
     const dataName: any = req.query.oneUserData;
     const dataToUpdate = req.body[dataName];
