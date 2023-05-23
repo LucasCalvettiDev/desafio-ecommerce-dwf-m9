@@ -2,7 +2,7 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api/.*",
+      "src": "/(.*)",
       "methods": ["OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH"],
       "headers": {
         "Access-Control-Allow-Origin": "http://localhost:3000",
